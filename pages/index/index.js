@@ -68,6 +68,7 @@ Page({
     isHiddenRefresh: false,
     city: '杭州市',
     province: '浙江省',
+    cityCode:'330100',
     userInfo: {},
     hasUserInfo:false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -84,7 +85,7 @@ Page({
     that.getLocation();
     that.getGoodsList();
     var date = utils.formatDateTime(new Date());
-    console.log(date);
+    // console.log(date);
     this.setData({
       nowDate: date
     });
@@ -199,10 +200,12 @@ Page({
             if (res.status == 0) {
               var city = res.result.address_component.city;
               var province = res.result.address_component.province;
-              //console.log(city+":"+province);
+              var cityCode = res.result.ad_info.city_code.substring(3);
+             // console.log(cityCode);
               that.setData({
                 city: city,
-                province: province
+                province: province,
+                cityCode: cityCode
               })
             }
           },
@@ -224,8 +227,7 @@ Page({
       category: that.data.activeCategoryId,
       pageNo: that.data.pageNo,
       pageSize: that.data.pageSize,
-      province: that.data.province,
-      city: that.data.city
+      city: that.data.cityCode
     }).then(res => {
       // console.log(res.result)
       if (res.result == 1) {
