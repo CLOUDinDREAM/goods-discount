@@ -1,0 +1,253 @@
+/**index.wxss**/
+
+.container {
+  height: 100vh;
+}
+.login-user {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+  z-index: 10000;
+}
+.swiper-container {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 220rpx;
+}
+.location{
+  position: absolute;
+  top: 10rpx;
+  left: 10rpx;
+  line-height: 40rpx;
+  background-color: #46743B;
+  border-radius: 20rpx;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+}
+.location text {
+  line-height: 50rpx;
+  color: #FFFFFF;
+  font-size: 24rpx;
+  text-align: center;
+
+}
+.location image {
+  margin-left: 10rpx; 
+  width: 18rpx;
+  height: 10rpx;
+}
+swiper {
+  width: 100vw;
+  height: 220rpx;
+}
+
+swiper-item image {
+  width: 100vw;
+  height: 220rpx;
+}
+
+.scroll-view-box {
+  position: absolute; 
+  width: 100%;
+  top: 220rpx;
+  height: 70rpx;
+  padding: 10rpx 10rpx;
+  border: 1rpx solid #E0E0E0;
+  display: flex;
+  white-space: nowrap; 
+}
+.scroll-view-box .category-item{
+  display:inline-block;
+  width: 20%;
+  text-align: center;
+  overflow: hidden;
+  line-height: 30px;
+  font-size: 16px;
+}
+
+.category-item .type-select {
+  font-size: 18px;
+  color: #ed7230;
+}
+
+.goods-container {
+  position: absolute;
+  top: 300rpx;
+  height: 70vh;
+  width: 100vw;
+  margin-bottom: 20rpx;
+}
+
+.refresh-down {
+  padding-left: 25%;
+  width: 100vw;
+  height: 30px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: center;
+  background-color: #f5f5f5;
+  margin: 0 auto;
+}
+
+.refresh-down text {
+  font-size: 15px;
+  color: #359ee6;
+}
+
+.refresh-down image {
+  position: relative;
+  bottom: -1rpx;
+  margin-left: 10rpx;
+  width: 24rpx;
+  height: 24rpx;
+}
+
+/* .goods-list {
+  position: relative;
+  height: 100%; 
+  overflow: scroll;
+}  */
+
+.goods-info {
+  width: 100vw;
+  height: 180rpx;
+  border-bottom: 1px #E0E0E0 solid;
+}
+.over-date text{
+  color: #c4c4c4  !important;
+}
+.over-date .discount-store text:nth-child(2){
+  color: #FFFFFF !important;
+  background-color: #C4C4C4 !important;
+}
+.info-left {
+  position: relative;
+  float: left;
+  left: 3%;
+  width: 67%;
+  height: 100%;
+  /* background-color: blue; */
+}
+.discount-store{
+  position: relative;
+  width: 100%;
+  height: 40%;
+  float: left;
+  top:20rpx;
+  font-weight: 700;
+  overflow: auto;
+}
+.discount-store text:first-child {
+  font-size:30rpx; 
+}
+.discount-store text:nth-child(2){
+  position: relative;
+  margin-left: 10rpx;
+  font-size:22rpx; 
+  color: #FFFFFF;
+  background-color: #EB3039;
+  border-radius: 30rpx;
+  padding: 10rpx;
+}
+.discount-info{
+  position: relative;
+  width: 100%;
+  height: 28%;
+  float: left;
+  overflow: auto;
+}
+.discount-info text:first-child {
+  font-size:26rpx; 
+}
+.discount-info text:nth-child(2){
+  font-size:26rpx; 
+  color: #EB3039;
+}
+.discount-time {
+  position: relative;
+  width: 100%;
+  height: 28%;
+  float: left;
+  overflow: auto;
+}
+.discount-time text:first-child {
+  font-size:26rpx; 
+}
+.discount-time text:nth-child(2) {
+  font-size:26rpx; 
+}
+.info-right {
+  position: relative;
+  float: left;
+  width: 30%;
+  height: 100%;
+  /* background-color: green; */
+}
+.info-right .user-pic {
+  position: absolute;
+  top:42rpx;
+  right:80rpx;
+  width: 74rpx;
+  height: 74rpx;
+  border-radius: 50%;
+}
+.info-right .broker-icon{
+  position: absolute;
+  top:35rpx;
+  right:35rpx;
+  width: 70rpx;
+  height: 30rpx;
+}
+.info-right .user-name {
+  width: 100%;
+  position: absolute;
+  bottom: 20rpx;
+  font-size: 25rpx;
+  line-height: 50rpx;
+  text-align: center;
+  font-family: FZLTHJW--GB1-0;
+  color: #000000;
+}
+.refresh-up {
+  float: left;
+  padding-left: 25%;
+  width: 100vw;
+  height: 30px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: center;
+  background-color: #f5f5f5;
+  margin: 0 auto;
+}
+
+.refresh-up text {
+  font-size: 15px;
+  color: #359ee6;
+}
+.refresh-up image {
+  width: 24rpx;
+  height: 24rpx;
+}
+.broke-news {
+  position: fixed;
+  right: 50rpx;
+  bottom: 70rpx;
+  width: 140rpx;
+  height: 140rpx;
+}
+.broke-news .contact-button {
+  position: absolute;
+  width: 140rpx;
+  height: 140rpx;
+  padding: 0;
+  opacity: 0;
+  z-index: 100;
+}
+.broke-news image {
+  position: absolute;
+  width: 140rpx;
+  height: 140rpx;
+}
+.refresh-display {
+  display: block;
+}
