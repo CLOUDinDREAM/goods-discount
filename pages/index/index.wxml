@@ -25,6 +25,7 @@
   </scroll-view>
   <!-- 商品列表 -->
   <scroll-view scroll-y="true" class='goods-container' bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll">
+      <!-- 刷新代码更改 https://www.cnblogs.com/-xk94/p/9429485.html -->
     <!-- 下拉刷新 -->
     <view class="refresh-down" wx:if="{{isHiddenRefresh}}">
       <text>持续更新中，下拉刷新</text>

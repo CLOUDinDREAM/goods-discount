@@ -103,7 +103,7 @@ Page({
   },
   // 获取用户信息
   getUserInfo: function(e) {
-    console.log(e)
+    //console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     
     var sessionKey = wx.getStorageSync("sessionKey");
@@ -136,7 +136,7 @@ Page({
     });
     that.getGoodsList(false)
   },
-  // 上滑事件
+  // 下滑事件
   upper: function(e) {
     const that = this
     that.setData({
@@ -151,14 +151,14 @@ Page({
       });
     }, 2000);
   },
-  // 下滑事件
+  // 上滑事件
   lower: function(e) {
     const that = this
     that.setData({
       isHiddenLoadMore: true,
       isHiddenRefresh: false,
       pageNo: that.data.pageNo + 1
-    });
+    }); 
     that.getGoodsList(true)
     setTimeout(() => {
       // 隐藏上拉加载的布局
@@ -222,6 +222,13 @@ Page({
   // 获取商品列表
   getGoodsList: function(append) {
     const that = this
+    var lastPage = wx.getStorageSync('lastPage');
+    if(lastPage != "" && lastPage != null){
+      if (that.data.pageNo > lastPage) {
+        return;
+      }
+    }
+    
     // console.log("刷新商品信息")
     WXAPI.goodsList({
       category: that.data.activeCategoryId,
@@ -231,6 +238,7 @@ Page({
     }).then(res => {
       // console.log(res.result)
       if (res.result == 1) {
+        wx.setStorageSync('lastPage', res.data.lastPage)
         let goodsList = []
         if (append) {
           goodsList = that.data.goodsList
