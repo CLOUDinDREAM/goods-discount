@@ -1,7 +1,7 @@
 const formatTime = date => {
   const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
+  const month = parseInt(date.getMonth() + 1)
+  const day = parseInt(date.getDate())
   const hour = date.getHours()
   const minute = date.getMinutes()
   const second = date.getSeconds()
@@ -13,8 +13,8 @@ const formatDateTime = date => {
   const day = date.getDate()
   const hour = date.getHours()
   const minute = date.getMinutes()
-
-  return [month, day].map(formatNumber).join('.') + ' ' + [hour, minute].map(formatNumber).join(':')
+  console.log(month + ":" + day + ":" + hour + ":" + minute)
+  return [month, day].join('.') + ' ' + [hour, minute].join(':')
 }
 const formatNumber = n => {
   n = n.toString()

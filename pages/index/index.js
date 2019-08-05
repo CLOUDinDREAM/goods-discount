@@ -46,8 +46,6 @@ Page({
     activeCategoryId: 1,
     pageNo: 1,
     pageSize: 5,
-    province: "",
-    city: "",
     goodsList: [
       // { "id": "1", "name": "太平鸟广仁旗舰店", "platform": "拼多多", "maxDiscount": "满200减100", "startTime": "7.15 12:00"
       //     , "endTime": "7.16 12:00", "wxUser": "曝料人姓名", "wxUserAvatar":"/images/user.jpg"},
@@ -69,10 +67,17 @@ Page({
     city: '杭州市',
     province: '浙江省',
     cityCode:'330100',
+    
+    // 用户信息
     userInfo: {},
-    hasUserInfo:false,
+    hasUserInfo: app.globalData.hasUserInfo,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    nowDate:null,
+    // 列表展示
+    height: 0, // scroll-wrap 的高度，这个高度是固定的
+    inner_height: 0, // inner-wrap 的高度，这个高度是动态的
+    scroll_top: 0, // 滚动到位置。
+    start_scroll: 0, // 滚动前的位置。
+    touch_down: 0 // 触摸时候的 Y 的位置
   },
   //事件处理函数
   bindViewTap: function() {
@@ -80,15 +85,30 @@ Page({
       url: '../logs/logs'
     })
   },
+  onReady: function(){
+    let self = this;
+    const query = wx.createSelectorQuery()
+    query.select('#scroll-wrap').boundingClientRect()
+    query.exec(function (res) {
+      self.data.height = res[0].height;
+    });
+    let openId = wx.getStorageSync("openId");
+    WXAPI.checkUser(openId).then(res => {
+      if (res.result == 1) {
+        //console.log(res.data.length)
+        if (res.data.length == 1) {
+          self.setData({
+            hasUserInfo: true
+          });
+        }
+      }
+    });
+  },
   onLoad: function() {
     const that = this;
     that.getLocation();
     that.getGoodsList();
-    var date = utils.formatDateTime(new Date());
-    // console.log(date);
-    this.setData({
-      nowDate: date
-    });
+
   },
   onShareAppMessage: function (res) {
     if (res.from === 'button') {
@@ -136,45 +156,6 @@ Page({
     });
     that.getGoodsList(false)
   },
-  // 下滑事件
-  upper: function(e) {
-    const that = this
-    that.setData({
-      isHiddenRefresh: true,
-      pageNo: 1
-    });
-    that.getGoodsList(false)
-    setTimeout(() => {
-      // 隐藏下拉刷新的布局
-      that.setData({
-        isHiddenRefresh: false,
-      });
-    }, 2000);
-  },
-  // 上滑事件
-  lower: function(e) {
-    const that = this
-    that.setData({
-      isHiddenLoadMore: true,
-      isHiddenRefresh: false,
-      pageNo: that.data.pageNo + 1
-    }); 
-    that.getGoodsList(true)
-    setTimeout(() => {
-      // 隐藏上拉加载的布局
-      that.setData({
-        isHiddenLoadMore: false,
-      });
-    }, 2000);
-  },
-  // 滚动事件
-  scroll: function(e) {
-    //滚动事件
-    const that = this
-    that.setData({
-      isHiddenRefresh: false,
-    });
-  },
   // 获取位置信息
   getLocation: function() {
     const that = this
@@ -201,7 +182,6 @@ Page({
               var city = res.result.address_component.city;
               var province = res.result.address_component.province;
               var cityCode = res.result.ad_info.city_code.substring(3);
-             // console.log(cityCode);
               that.setData({
                 city: city,
                 province: province,
@@ -227,8 +207,7 @@ Page({
       if (that.data.pageNo > lastPage) {
         return;
       }
-    }
-    
+    }    
     // console.log("刷新商品信息")
     WXAPI.goodsList({
       category: that.data.activeCategoryId,
@@ -236,7 +215,6 @@ Page({
       pageSize: that.data.pageSize,
       city: that.data.cityCode
     }).then(res => {
-      // console.log(res.result)
       if (res.result == 1) {
         wx.setStorageSync('lastPage', res.data.lastPage)
         let goodsList = []
@@ -257,5 +235,80 @@ Page({
         })
       }
     });
-  }
+  },
+  // start: 触摸开始
+  start_fn(e) {
+    //console.log(e)
+    let self = this;
+    let touch_down = e.touches[0].clientY;
+    this.data.touch_down = touch_down;
+    // 获取 inner-wrap 的高度
+    const query = wx.createSelectorQuery()
+    query.select('#inner-wrap').boundingClientRect();
+    query.select('#scroll-wrap').fields({
+      scrollOffset: true,
+      size: true
+    });
+    query.exec(function (res) {
+      // console.log(res)
+      self.data.inner_height = res[0].height;
+      self.data.start_scroll = res[1].scrollTop;
+      self.data.height = res[1].height.toFixed(0);
+    });
+  },
+  // end: 触摸开始
+  // start： 触摸结束
+  end_fn(e) {
+    //console.log(e)
+    let current_y = e.changedTouches[0].clientY;
+    let self = this;
+    let { start_scroll, inner_height, height, touch_down } = this.data;
+    // console.log("current_y" + current_y + "-" + "touch_down:" + touch_down + "-" + "start_scroll:" + start_scroll)
+    // console.log("inner_height" + inner_height + "-" + "height:" + height)
+    /**
+    * 1、下拉刷新
+    * 2、上拉加载
+    */
+    if (current_y > touch_down && current_y - touch_down > 20 && start_scroll == 0) {
+      // 下拉刷新 的请求和逻辑处理等
+      //console.log("下拉刷新")
+      self.upper()
+    } else if (current_y < touch_down && touch_down - current_y >= 20 && inner_height - height == start_scroll) {
+      // 上拉加载 的请求和逻辑处理等
+      //console.log("上拉加载")
+      self.lower()
+    }
+  },
+// end: 触摸结束
+  // 下滑事件
+  upper: function () {
+    const that = this
+    that.setData({
+      isHiddenRefresh: true,
+      pageNo: 1
+    });
+    that.getGoodsList(false)
+    setTimeout(() => {
+      // 隐藏下拉刷新的布局
+      that.setData({
+        isHiddenRefresh: false,
+      });
+    }, 2000);
+  },
+  // 上滑事件
+  lower: function () {
+    const that = this
+    that.setData({
+      isHiddenLoadMore: true,
+      isHiddenRefresh: false,
+      pageNo: that.data.pageNo + 1
+    });
+    that.getGoodsList(true)
+    setTimeout(() => {
+      // 隐藏上拉加载的布局
+      that.setData({
+        isHiddenLoadMore: false,
+      });
+    }, 2000);
+  },
 })

@@ -5,10 +5,10 @@
 }
 .login-user {
   position: absolute;
-  width: 100vw;
+  width:100vw;
   height: 100vh;
   opacity: 0;
-  z-index: 10000;
+  z-index: 99;
 }
 .swiper-container {
   position: absolute;
@@ -20,18 +20,18 @@
   position: absolute;
   top: 10rpx;
   left: 10rpx;
-  line-height: 40rpx;
+  line-height: 30rpx;
   background-color: #46743B;
   border-radius: 20rpx;
   padding-left: 10rpx;
   padding-right: 10rpx;
+  opacity: 0.9;
 }
 .location text {
   line-height: 50rpx;
   color: #FFFFFF;
   font-size: 24rpx;
   text-align: center;
-
 }
 .location image {
   margin-left: 10rpx; 
@@ -143,12 +143,13 @@ swiper-item image {
 }
 .discount-store text:nth-child(2){
   position: relative;
+  top: -3rpx;
   margin-left: 10rpx;
   font-size:22rpx; 
   color: #FFFFFF;
   background-color: #EB3039;
   border-radius: 30rpx;
-  padding: 10rpx;
+  padding: 0 10rpx;
 }
 .discount-info{
   position: relative;

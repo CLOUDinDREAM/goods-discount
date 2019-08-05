@@ -1,7 +1,5 @@
 <!--index.wxml-->
 <view class="container">
-  <button class='login-user' wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"  >授权登录</button>
-  <!-- <button class='login-user' open-type="getUserInfo" bindgetuserinfo="getUserInfo">授权登录</button> -->
   <!-- 地图定位 -->
   <!-- banner图 -->
   <view class='swiper-container'>
@@ -19,25 +17,27 @@
   </view>
   <!-- 类别 -->
   <scroll-view scroll-x="true" class='scroll-view-box'>
-      <view class="category-item" wx:for="{{category}}" wx:key="categoryId">
-        <view id="{{item.id}}" class="{{activeCategoryId == item.id ? 'type-select' :''}}" bindtap='categoryChange'>{{item.name}}</view>
-      </view>
+    <view class="category-item" wx:for="{{category}}" wx:key="categoryId">
+      <view id="{{item.id}}" class="{{activeCategoryId == item.id ? 'type-select' :''}}" bindtap='categoryChange'>{{item.name}}</view>
+    </view>
   </scroll-view>
   <!-- 商品列表 -->
-  <scroll-view scroll-y="true" class='goods-container' bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll">
-      <!-- 刷新代码更改 https://www.cnblogs.com/-xk94/p/9429485.html -->
-    <!-- 下拉刷新 -->
-    <view class="refresh-down" wx:if="{{isHiddenRefresh}}">
-      <text>持续更新中，下拉刷新</text>
-      <image src='/images/icon-refresh-2.png'></image>
-    </view>
-    <view class='goods-list'>
-      <view class='goods-info' wx:for="{{goodsList}}" wx:key="goodsId" >
-        <block wx:if="{{nowDate > item.endTime}}"> 
-          <view class='info-left over-date'>
+  <scroll-view scroll-y="true" id="scroll-wrap" class='goods-container' scroll-top="{{scroll_top}}">
+      <button class='login-user' wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">授权登录</button>
+    <!-- 刷新代码更改 https://www.cnblogs.com/-xk94/p/9429485.html -->
+    <view id="inner-wrap"  bindtouchstart="start_fn"  bindtouchend="end_fn">
+      <!-- 下拉刷新 -->
+      <view class="refresh-down" wx:if="{{isHiddenRefresh}}">
+        <text>持续更新中，下拉刷新</text>
+        <image src='/images/icon-refresh-2.png'></image>
+      </view>
+      <view class='goods-list'>
+        <view class='goods-info' wx:for="{{goodsList}}" wx:key="goodsId">
+          <block wx:if="{{item.status == 2}}">
+            <view class='info-left over-date'>
               <view class='discount-store'>
                 <text>{{item.name}}</text>
-                <text>{{item.platforms}}</text>            
+                <text>{{item.platforms}}</text>
               </view>
               <view class='discount-info'>
                 <text>最大省赚： </text>
@@ -48,12 +48,12 @@
                 <text>{{item.startTime}} - {{item.endTime}}</text>
               </view>
             </view>
-        </block>  
-        <block wx:if="{{nowDate <= item.endTime}}"> 
-          <view class='info-left'>
+          </block>
+          <block wx:if="{{item.status == 1}}">
+            <view class='info-left'>
               <view class='discount-store'>
                 <text>{{item.name}}</text>
-                <text>{{item.platform}}</text>            
+                <text>{{item.platform}}</text>
               </view>
               <view class='discount-info'>
                 <text>最大省赚： </text>
@@ -64,17 +64,18 @@
                 <text>{{item.startTime}} - {{item.endTime}}</text>
               </view>
             </view>
-        </block>           
-        <view class='info-right'>
-          <image src="{{item.wxUserAvatar}}" class='user-pic'></image>
-          <image src='/images/icon-broker-2.png' class='broker-icon'></image>
-          <text class='user-name'>{{item.wxUser == null ? "无名氏" : item.wxUser }}</text>
+          </block>
+          <view class='info-right'>
+            <image src="{{item.wxUserAvatar}}" class='user-pic'></image>
+            <image src='/images/icon-broker-2.png' class='broker-icon'></image>
+            <text class='user-name'>{{item.wxUser == null ? "无名氏" : item.wxUser }}</text>
+          </view>
         </view>
       </view>
-    </view>
-    <view class="refresh-up" wx:if="{{isHiddenLoadMore}}">
-      <text>加载中。。。</text>
-      <image src='/images/icon-refresh-2.png'></image>
+      <view class="refresh-up" wx:if="{{isHiddenLoadMore}}">
+        <text>加载中。。。</text>
+        <image src='/images/icon-refresh-2.png'></image>
+      </view>
     </view>
   </scroll-view>
   <!-- <view>

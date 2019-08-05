@@ -47,6 +47,9 @@ module.exports = {
   login : (code) => {
     return request('/wx/login', 'get', {code})
   },
+  checkUser: (openId) => {
+    return request('/wx', 'get', { openId })
+  },
   userInfo: (data) => {
     return request('/wx/info', 'post',data)
   },
