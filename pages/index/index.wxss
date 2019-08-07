@@ -138,13 +138,25 @@ swiper-item image {
   font-weight: 700;
   overflow: auto;
 }
-.discount-store text:first-child {
+.discount-store .discount-store-name {
   font-size:30rpx; 
 }
-.discount-store text:nth-child(2){
+/* .discount-store text:nth-child(2){
   position: relative;
   top: -3rpx;
   margin-left: 10rpx;
+  font-size:22rpx; 
+  color: #FFFFFF;
+  background-color: #EB3039;
+  border-radius: 30rpx;
+  padding: 0 10rpx;
+} */
+.discount-store view {
+  position: relative;
+  display: inline-block;
+  margin-left: 10rpx;
+}
+.discount-store view  text {
   font-size:22rpx; 
   color: #FFFFFF;
   background-color: #EB3039;

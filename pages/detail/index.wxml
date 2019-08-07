@@ -1,0 +1,83 @@
+<view class="container">
+  <view class="goods-detail">
+    <view class='user-info'>
+      <image src='{{goodsDetail.wxUserAvatar}}'></image>
+      <view>
+        <text>{{goodsDetail.wxUser}}</text>
+        <text>爆料人</text>
+      </view>
+    </view>
+    <view class="discount-store">
+      <text class='discount-store-name'>{{goodsDetail.name}}</text>
+      <view wx:for="{{goodsDetail.platforms}}" wx:key="platformId">
+        <text> {{item}} </text>
+      </view>
+    </view>
+    <view class="discount-info">
+      <text>最大省赚： </text>
+      <text>{{goodsDetail.maxDiscount}}</text>
+    </view>
+    <view class="discount-time">
+      <text>优惠时间： </text>
+      <text>{{goodsDetail.startTime}} - {{goodsDetail.endTime}}</text>
+    </view>
+    <view class="discount-content">
+      <text>优惠攻略： </text>
+      <text>{{goodsDetail.content}}</text>
+    </view>
+  </view>
+  <view class='social-container'>
+    <view class='social-num'>
+      <text>转发 {{shareNum}}</text>
+      <text>评论 {{discuss}}</text>
+      <text>赞 {{support}}万</text>
+    </view>
+    <scroll-view class='scroll-social-list' scroll-y="true">
+      <view class='social-list'>
+        <view class='social-info' wx:for="{{discussList}}" wx:key="id">
+          <view class='user-pic'>
+            <image src='{{item.wxUserAvatar}}'></image>
+          </view>
+          <view class='info'>
+            <text>{{item.wxUser}}</text>
+            <text>{{item.content}}</text>
+            <view class='info-detail'>
+              <text class='social-time'>{{item.dateTime}}</text>
+              <view wx:if="{{item.state == 1}}" class='social-support'>
+                <image src='/images/icon-support-ture.png'></image>
+                <text>赞</text>
+              </view>
+              <view wx:else class='social-support'>
+                <image src='/images/icon-support-ture.png'></image>
+                <text>赞</text>
+              </view>
+              <view class='social-discuss'>
+                <image src='/images/icon-discuss.png'></image>
+                <text>{{item.discuss}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+  <view class='social-button'>
+    <view>
+      <image src='/images/icon-share.png'></image>
+      <text>转发</text>
+
+    </view>
+    <view>
+      <image src='/images/icon-discuss.png'></image>
+      <text>评论</text>
+    </view>
+    <view wx:if="{{state == 1}}">
+      <image src='/images/icon-support-ture.png'></image>
+      <text style='color: #ED7230;'>赞</text>
+    </view>
+    <view wx:else>
+      <image src='/images/icon-support-ture.png'></image>
+      <text style='color: #ED7230;'>赞</text>
+    </view>
+  </view>
+</view>

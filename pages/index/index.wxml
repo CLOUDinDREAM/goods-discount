@@ -32,12 +32,15 @@
         <image src='/images/icon-refresh-2.png'></image>
       </view>
       <view class='goods-list'>
-        <view class='goods-info' wx:for="{{goodsList}}" wx:key="goodsId">
+        <view class='goods-info' wx:for="{{goodsList}}" wx:key="id" bindtap='goToDetail' data-id="{{item.id}}">
           <block wx:if="{{item.status == 2}}">
             <view class='info-left over-date'>
               <view class='discount-store'>
-                <text>{{item.name}}</text>
-                <text>{{item.platforms}}</text>
+                <text class='discount-store-name'>{{item.name}}</text>
+                <!-- <text>{{item.platform}}</text> -->
+                <view wx:for="{{item.platforms}}" wx:key="platformId">
+                  <text > {{item}} </text>
+                </view>
               </view>
               <view class='discount-info'>
                 <text>最大省赚： </text>
@@ -52,8 +55,11 @@
           <block wx:if="{{item.status == 1}}">
             <view class='info-left'>
               <view class='discount-store'>
-                <text>{{item.name}}</text>
-                <text>{{item.platform}}</text>
+                <text  class='discount-store-name'>{{item.name}}</text>
+                <!-- <text>{{item.platform}}</text> -->
+                <view wx:for="{{item.platforms}}" wx:key="platformId">
+                  <text > {{item}} </text>
+                </view>                
               </view>
               <view class='discount-info'>
                 <text>最大省赚： </text>

@@ -1,0 +1,251 @@
+.container {
+  height: 100vh;
+  padding: 0;
+}
+
+.goods-detail {
+  position: relative;
+  top: 0;
+  width: 100vw;
+  margin-bottom: 30rpx;
+}
+
+.user-info {
+  height: 110rpx;
+}
+
+.user-info image {
+  position: relative;
+  float: left;
+  width: 70rpx;
+  height: 70rpx;
+  border-radius: 50%;
+  margin-top: 20rpx;
+  margin-left: 36rpx;
+}
+
+.user-info view {
+  position: relative;
+  float: left;
+  margin-top: 20rpx;
+  margin-left: 20rpx;
+}
+
+.user-info view text {
+  display: inherit;
+}
+
+.user-info view text:first-child {
+  font-size: 28rpx;
+  font-family: FZLTHJW--GB1-0;
+}
+
+.user-info view text:nth-child(2) {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.discount-store {
+  height: 70rpx;
+}
+
+.discount-store .discount-store-name {
+  font-size: 34rpx;
+  font-weight: 700;
+  margin-left: 38rpx;
+}
+
+.discount-store view {
+  position: relative;
+  display: inline-block;
+  margin-left: 10rpx;
+  margin-right: 5rpx;
+}
+
+.discount-store view  text {
+  font-size: 22rpx;
+  color: #fff;
+  background-color: #eb3039;
+  border-radius: 30rpx;
+  padding: 0 10rpx;
+}
+
+.discount-info {
+  height: 70rpx;
+  font-size: 28rpx;
+}
+
+.discount-info text:first-child {
+  color: #999;
+  margin-left: 38rpx;
+}
+
+.discount-info text:nth-child(2) {
+  font-size: 26rpx;
+}
+
+.discount-time {
+  height: 70rpx;
+  font-size: 28rpx;
+}
+
+.discount-time text:first-child {
+  color: #999;
+  margin-left: 38rpx;
+}
+
+.discount-time text:nth-child(2) {
+  font-size: 26rpx;
+}
+
+.discount-content {
+  font-size: 28rpx;
+}
+
+.discount-content text:first-child {
+  color: #999;
+  margin-left: 38rpx;
+  position: relative;
+  float: left;
+  margin-right: 4rpx;
+}
+
+.discount-content text:nth-child(2) {
+  width: 500rpx;
+  position: relative;
+  float: left;
+}
+
+.social-container {
+  position: relative;
+  width: 100vw;
+  height: 60vh;
+  border-top: 20rpx solid #f5f5f5;
+}
+
+.social-num {
+  height: 88rpx;
+  border-bottom: 1px #e0e0e0 solid;
+}
+
+.social-num text {
+  color: #999;
+  font-size: 28rpx;
+  line-height: 88rpx;
+}
+
+.social-num text:first-child {
+  margin-left: 30rpx;
+}
+
+.social-num text:nth-child(2) {
+  color: #000;
+  font-weight: 700;
+  margin-left: 42rpx;
+}
+
+.social-num text:nth-child(3) {
+  float: right;
+  margin-right: 30rpx;
+}
+
+.social-list {
+  width: 100vw;
+}
+
+.social-info {
+  width: 100vw;
+}
+
+.social-info .user-pic {
+  width: 13vw;
+  margin-left: 26rpx;
+  margin-top: 20rpx;
+  float: left;
+}
+
+.social-info .user-pic image {
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 50%;
+}
+
+.social-info .info {
+  float: left;
+  width: 80vw;
+  height: 100%;
+  margin-top: 20rpx;
+  border-bottom: 1px #e0e0e0 solid;
+}
+
+.social-info .info image {
+  width: 28rpx;
+  height: 26rpx;
+}
+
+.social-info .info text:first-child {
+  display: block;
+  color: #666;
+  font-size: 28rpx;
+  position: relative;
+}
+
+.social-info .info text:nth-child(2) {
+  font-size: 30rpx;
+  position: relative;
+}
+
+.social-info .info .info-detail {
+  height: 50rpx;
+  position: relative;
+  margin-top: 28rpx;
+  margin-bottom: 16rpx;
+}
+
+.social-info .info .social-time {
+  float: left;
+}
+
+.social-info .info .social-discuss {
+  float: right;
+}
+
+.social-info .info .social-support {
+  float: right;
+  margin-left: 24rpx;
+}
+
+.info .social-discuss text {
+  margin-left: 16rpx;
+}
+
+.info .social-support text {
+  margin-left: 16rpx;
+}
+
+.social-button {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 88rpx;
+  background-color: #f9f9f9;
+}
+
+.social-button view {
+  float: left;
+  width: 33%;
+  margin: auto;
+  line-height: 44px;
+}
+
+.social-button view image {
+  width: 28rpx;
+  height: 26rpx;
+  margin-left: 30%;
+}
+
+.social-button view text {
+  font-size: 28rpx;
+  color: #666;
+  margin-left: 18rpx;
+}

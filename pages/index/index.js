@@ -108,7 +108,6 @@ Page({
     const that = this;
     that.getLocation();
     that.getGoodsList();
-
   },
   onShareAppMessage: function (res) {
     if (res.from === 'button') {
@@ -235,6 +234,11 @@ Page({
         })
       }
     });
+  },
+  goToDetail(e){
+    wx.navigateTo({
+      url: '/pages/detail/index?id=' + e.currentTarget.dataset.id,
+    })
   },
   // start: 触摸开始
   start_fn(e) {
