@@ -4,7 +4,7 @@
   <!-- banner图 -->
   <view class='swiper-container'>
     <swiper class="swiper-box" indicator-dots='{{indicatorDots}}' autoplay='{{autoplay}}' interval='{{interval}}' duration='{{duration}}'>
-      <block wx:for="{{imgUrls}}" wx:key="id">
+      <block wx:for="{{imgUrls}}" wx:key="bannerId">
         <swiper-item>
           <image src="{{item}}" class="slide-image" />
         </swiper-item>
@@ -32,7 +32,7 @@
         <image src='/images/icon-refresh-2.png'></image>
       </view>
       <view class='goods-list'>
-        <view class='goods-info' wx:for="{{goodsList}}" wx:key="id" bindtap='goToDetail' data-id="{{item.id}}">
+        <view class='goods-info' wx:for="{{goodsList}}" wx:key="goodsId" bindtap='goToDetail' data-id="{{item.id}}">
           <block wx:if="{{item.status == 2}}">
             <view class='info-left over-date'>
               <view class='discount-store'>
@@ -92,6 +92,6 @@
   <view class='broke-news'>
     <button class="contact-button" open-type="contact" session-from="weapp">
     </button>
-    <image src='/images/broke-news-3.png'></image>
+    <image src='/images/broke-news-22.png'></image>
   </view>
 </view>

@@ -56,4 +56,23 @@ module.exports = {
   goodsList : (data) => {
     return request('/activity','get',data)
   },
+  goodsDetail: (id,openId) => {
+    return request('/activity/'+id, 'get', { openId })
+  },
+  // 转发
+  shareAdd: (id, openId) => {
+    return request('/repost/' + id, 'post', { openId })
+  },
+  // 评论
+  discuss: (id, data) => {
+    return request('/comment/' + id, 'get', data)
+  },
+  discussAdd: (data) => {
+    return request('/comment', 'post', data)
+  },
+  // 点赞
+  supportAdd: (id, openId) => {
+    return request('/like/' + id, 'post', { openId })
+  },
+
 }

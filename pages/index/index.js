@@ -1,5 +1,5 @@
 const WXAPI = require("../../wxapi/main.js")
-var QQMapWX = require('../../utils/qqmap/qqmap-wx-jssdk.js');
+const QQMapWX = require('../../utils/qqmap/qqmap-wx-jssdk.js');
 const utils = require('../../utils/util.js');
 var qqmapsdk;
 //获取应用实例
@@ -113,12 +113,14 @@ Page({
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
+    }else{
+      return {
+        title: '0元购、折上折、霸王餐、满减，一查便知',
+        path: '/pages/index/index',
+        imageUrl: '/images/share.png'
+      }
     }
-    return {
-      title: '0元购、折上折、霸王餐、满减，一查便知',
-      path: '/pages/index/index',
-      imageUrl: '/images/share.png'
-    }
+   
   },
   // 获取用户信息
   getUserInfo: function(e) {
