@@ -74,5 +74,7 @@ module.exports = {
   supportAdd: (id, openId) => {
     return request('/like/' + id, 'post', { openId })
   },
-
+  broke: (data) => {
+    return request('/tips', "post", data)
+  }
 }

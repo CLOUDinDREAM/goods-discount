@@ -118,7 +118,7 @@ Page({
     });
     return {
       title: this.data.activityDetail.name + "  " + this.data.activityDetail.maxDiscount,
-      path: '/pages/detail/index?id=' + this.data.goodsId,
+      path: '/pages/detail/index?id=' + this.data.activityId,
     }
   },
   // 点赞

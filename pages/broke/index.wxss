@@ -1,0 +1,64 @@
+.container {
+  height: 100vh;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+.notice {
+  width: 100vw;
+  height: 118rpx;
+  background-color: #f5f5f5;
+  font-size: 24rpx;
+}
+
+.notice text {
+  color: #666;
+  display: inline-block;
+  width: 90%;
+  margin-top: 26rpx;
+  margin-left: 34rpx;
+  text-align: left;
+}
+
+.form {
+  width: 100vw;
+  top: 59px;
+  position: absolute;
+  font-size: 32rpx;
+}
+
+.section {
+  padding-top: 30rpx;
+  background-color: #fff;
+}
+
+.section text {
+  width: 20%;
+  float: left;
+  padding-left: 20rpx;
+}
+
+.section input {
+  width: 75%;
+  display: inline-block;
+  font-size: 28rpx;
+}
+
+.submit {
+  margin-top: 78rpx;
+  width: 90%;
+  background-color: #ed7230;
+  color: #fff;
+  font-size: 36rpx;
+}
+
+.submit-close {
+  opacity: 0.5;
+}
+
+.login-user {
+  position: absolute;
+  width: 100vw;
+  opacity: 0;
+  z-index: 99;
+}

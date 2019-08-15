@@ -1,6 +1,7 @@
 const WXAPI = require("../../wxapi/main.js")
 const QQMapWX = require('../../utils/qqmap/qqmap-wx-jssdk.js');
 const utils = require('../../utils/util.js');
+const loginUtil = require('../../utils/login.js');
 var qqmapsdk;
 //获取应用实例
 const app = getApp()
@@ -33,14 +34,6 @@ Page({
       {
         "id": "5",
         "name": "其它"
-      },
-      {
-        "id": "6",
-        "name": "其它2"
-      },
-      {
-        "id": "7",
-        "name": "其它3"
       }
     ],
     activeCategoryId: 1,
@@ -50,27 +43,17 @@ Page({
       // { "id": "1", "name": "太平鸟广仁旗舰店", "platform": "拼多多", "maxDiscount": "满200减100", "startTime": "7.15 12:00"
       //     , "endTime": "7.16 12:00", "wxUser": "曝料人姓名", "wxUserAvatar":"/images/user.jpg"},
       // { "id": "1", "name": "太平鸟广仁旗舰店", "platform": "拼多多", "maxDiscount": "满200减100", "startTime": "7.15 12:00"
-      //     , "endTime": "7.16 12:00", "wxUser": "曝料人姓名", "wxUserAvatar": "/images/user.jpg" },
-      // { "id": "1", "name": "太平鸟广仁旗舰店", "platform": "拼多多", "maxDiscount": "满200减100", "startTime": "7.15 12:00"
-      //     , "endTime": "7.16 12:00", "wxUser": "曝料人姓名", "wxUserAvatar": "/images/user.jpg" },
-      // { "id": "1", "name": "太平鸟广仁旗舰店", "platform": "拼多多", "maxDiscount": "满200减100", "startTime": "7.15 12:00"
-      //     , "endTime": "7.16 12:00", "wxUser": "曝料人姓名", "wxUserAvatar": "/images/user.jpg" },
-      // { "id": "1", "name": "太平鸟广仁旗舰店", "platform": "拼多多", "maxDiscount": "满200减100", "startTime": "7.15 12:00"
-      //     , "endTime": "7.16 12:00", "wxUser": "曝料人姓名", "wxUserAvatar": "/images/user.jpg" },
-      // { "id": "1", "name": "太平鸟广仁旗舰店", "platform": "拼多多", "maxDiscount": "满200减100", "startTime": "7.15 12:00"
-      //     , "endTime": "7.16 12:00", "wxUser": "曝料人姓名", "wxUserAvatar": "/images/user.jpg" },
-      // { "id": "1", "name": "太平鸟广仁旗舰店", "platform": "拼多多", "maxDiscount": "满200减100", "startTime": "7.15 12:00"
-      //     , "endTime": "7.16 12:00", "wxUser": "曝料人姓名", "wxUserAvatar": "/images/user.jpg" },
+      //     , "endTime": "7.16 12:00", "wxUser": "曝料人姓名", "wxUserAvatar": "/images/user.jpg" }
     ],
     isHiddenLoadMore: false,
     isHiddenRefresh: false,
     city: '杭州市',
     province: '浙江省',
-    cityCode:'330100',
-    
+    cityCode: '330100',
+
     // 用户信息
     userInfo: {},
-    hasUserInfo: app.globalData.hasUserInfo,
+    hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     // 列表展示
     height: 0, // scroll-wrap 的高度，这个高度是固定的
@@ -85,49 +68,41 @@ Page({
       url: '../logs/logs'
     })
   },
-  onReady: function(){
+  onReady: function() {
     let self = this;
     const query = wx.createSelectorQuery()
     query.select('#scroll-wrap').boundingClientRect()
-    query.exec(function (res) {
+    query.exec(function(res) {
       self.data.height = res[0].height;
-    });
-    let openId = wx.getStorageSync("openId");
-    WXAPI.checkUser(openId).then(res => {
-      if (res.result == 1) {
-        //console.log(res.data.length)
-        if (res.data.length == 1) {
-          self.setData({
-            hasUserInfo: true
-          });
-        }
-      }
     });
   },
   onLoad: function() {
     const that = this;
     that.getLocation();
     that.getGoodsList();
+    // 首次进入页面需要登录
+    this.login();
   },
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
-    }else{
+    } else {
       return {
         title: '0元购、折上折、霸王餐、满减，一查便知',
         path: '/pages/index/index',
         imageUrl: '/images/share.png'
       }
     }
-   
   },
   // 获取用户信息
   getUserInfo: function(e) {
-    //console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    
+    // console.log(e.detail.userInfo)
+    if (!e.detail.userInfo) {
+      return;
+    }
     var sessionKey = wx.getStorageSync("sessionKey");
+    // todu 若sessionKey不存在，则需要重新登陆
     // 保存后台用户信息
     WXAPI.userInfo({
       sessionKey: sessionKey,
@@ -135,15 +110,46 @@ Page({
       rawData: e.detail.rawData,
       encryptedData: e.detail.encryptedData,
       iv: e.detail.iv
-    }).then( res => {
-      // console.log(res)
+    }).then(res => {
       // 设置用户信息成功，取消授权接口
-      this.setData({
-        userInfo: e.detail.userInfo,
-        hasUserInfo: true
-      });
-      wx.setStorageSync("userInfo", app.globalData.userInfo)
+      if (res.result == 1) {
+        this.setData({
+          userInfo: e.detail.userInfo,
+          hasUserInfo: true
+        });
+        wx.setStorageSync("userInfo", e.detail.userInfo)
+      }
     })
+  },
+  login: function() {
+    const that = this;
+    // 登录
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        WXAPI.login(res.code).then(res => {
+          if (res.result == 1) {
+            // 设置用户openId信息
+            const openId = res.data.openid;
+            const sessionKey = res.data.sessionKey;
+            wx.setStorageSync("openId", openId);
+            wx.setStorageSync("sessionKey", sessionKey);
+            // 检查用户信息是否完整
+            WXAPI.checkUser(openId).then(res => {
+              if (res.result == 1) {
+                var userInfo = utils.isBlank(res.data[0].nickname)
+                if (res.data.length == 1 && !userInfo) {
+                  wx.setStorageSync("userInfo", res.data[0]);
+                  that.setData({
+                    hasUserInfo: true
+                  })
+                }
+              }
+            });
+          }
+        });
+      }
+    });
   },
   // 类目选择
   categoryChange: function(e) {
@@ -170,8 +176,6 @@ Page({
       success(res) {
         const latitude = res.latitude
         const longitude = res.longitude
-        // const speed = res.speed
-        // const accuracy = res.accuracy
         // 根据经纬度获取省市
         qqmapsdk.reverseGeocoder({
           location: {
@@ -187,14 +191,14 @@ Page({
                 city: city,
                 province: province,
                 cityCode: cityCode
-              })
+              });
+              wx.setStorageSync("cityCode", cityCode)
             }
           },
           fail: function(res) {
             console.log(res);
           },
           complete: function(res) {
-            //console.log(res);
           }
         });
       }
@@ -204,11 +208,11 @@ Page({
   getGoodsList: function(append) {
     const that = this
     var lastPage = wx.getStorageSync('lastPage');
-    if(lastPage != "" && lastPage != null){
+    if (lastPage != "" && lastPage != null) {
       if (that.data.pageNo > lastPage) {
         return;
       }
-    }    
+    }
     // console.log("刷新商品信息")
     WXAPI.goodsList({
       category: that.data.activeCategoryId,
@@ -237,7 +241,7 @@ Page({
       }
     });
   },
-  goToDetail(e){
+  goToDetail(e) {
     wx.navigateTo({
       url: '/pages/detail/index?id=' + e.currentTarget.dataset.id,
     })
@@ -255,7 +259,7 @@ Page({
       scrollOffset: true,
       size: true
     });
-    query.exec(function (res) {
+    query.exec(function(res) {
       // console.log(res)
       self.data.inner_height = res[0].height;
       self.data.start_scroll = res[1].scrollTop;
@@ -268,13 +272,16 @@ Page({
     //console.log(e)
     let current_y = e.changedTouches[0].clientY;
     let self = this;
-    let { start_scroll, inner_height, height, touch_down } = this.data;
-    // console.log("current_y" + current_y + "-" + "touch_down:" + touch_down + "-" + "start_scroll:" + start_scroll)
-    // console.log("inner_height" + inner_height + "-" + "height:" + height)
+    let {
+      start_scroll,
+      inner_height,
+      height,
+      touch_down
+    } = this.data;
     /**
-    * 1、下拉刷新
-    * 2、上拉加载
-    */
+     * 1、下拉刷新
+     * 2、上拉加载
+     */
     if (current_y > touch_down && current_y - touch_down > 20 && start_scroll == 0) {
       // 下拉刷新 的请求和逻辑处理等
       //console.log("下拉刷新")
@@ -285,9 +292,9 @@ Page({
       self.lower()
     }
   },
-// end: 触摸结束
+  // end: 触摸结束
   // 下滑事件
-  upper: function () {
+  upper: function() {
     const that = this
     that.setData({
       isHiddenRefresh: true,
@@ -302,7 +309,7 @@ Page({
     }, 2000);
   },
   // 上滑事件
-  lower: function () {
+  lower: function() {
     const that = this
     that.setData({
       isHiddenLoadMore: true,

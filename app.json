@@ -1,18 +1,38 @@
 {
-  "pages": [
+  "pages": [ 
     "pages/index/index",
+    "pages/broke/index",
     "pages/logs/logs",
-    "pages/detail/index"
+    "pages/detail/index" 
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "查惠",
+    "navigationBarTitleText": "找U惠",
     "navigationBarTextStyle": "black"
   },
   "permission": {
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
+  },
+  "tabBar": {
+    "backgroundColor": "#FFFFFF",
+    "color":"#666666",
+    "selectedColor": "#ED7230",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "/images/tab-index-index.png",
+        "selectedIconPath": "/images/tab-index-select.png"
+      },
+      {
+        "pagePath": "pages/broke/index",
+        "text": "我要爆料",
+        "iconPath": "/images/tab-broke-index.png",
+        "selectedIconPath": "/images/tab-broke-select.png"
+      }
+    ]
   }
 }

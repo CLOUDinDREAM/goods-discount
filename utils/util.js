@@ -21,7 +21,23 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+const isBlank =str => {
+  if (Object.prototype.toString.call(str) === '[object Undefined]') {
+    //空 
+    return true
+  } else if (
+    Object.prototype.toString.call(str) === '[object String]' || Object.prototype.toString.call(str) === '[object Array]') {
+    //字条串或数组 
+    return str.length == 0 ? true : false
+  } else if (Object.prototype.toString.call(str) === '[object Object]') {
+    return JSON.stringify(str) == '{}' ? true : false
+  } else {
+    return true
+  }
+}
+
 module.exports = {
   formatTime: formatTime,
-  formatDateTime: formatDateTime
+  formatDateTime: formatDateTime,
+  isBlank: isBlank
 }
