@@ -1,13 +1,13 @@
 
 <view class="container">
   <view class='notice'>
-    <text>您好，您的爆料经审核有价值（实质性的较大优惠）后，找U惠将上榜展示！感谢您的热心分享！</text>
+    <text>您好，您的内容经审核有价值（实质性的较大优惠）后，找U惠将上榜展示！</text>
   </view>
   <view class='form'>
     <form bindsubmit="submitForm" report-submit="true">
     <view class="section">
       <text>品牌名称</text>
-      <input placeholder="输入爆料名称，限10字" name="name" focus="true" maxlength="10" value='{{form_info}}'/>
+      <input placeholder="输入品牌名称，限10字" name="name" focus="true" maxlength="10" value='{{form_info}}'/>
     </view>
     <view class="section">
       <text>所在平台</text>
